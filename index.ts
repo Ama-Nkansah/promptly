@@ -18,19 +18,19 @@ const server = new McpServer({
 })
 
 const gettingStarted = async () => {
-  try {
-    const response = await ollama.chat({
-      model: "gpt-oss:120b-cloud",
-      messages: [{ role: "user", content: "Hello Ollama" }],
-      stream: true,
-    });
+    try {
+        const response = await ollama.chat({
+            model: "gpt-oss:120b-cloud",
+            messages: [{ role: "user", content: "Hello Ollama" }],
+            stream: true,
+        });
 
-    for await (const part of response) {
-      process.stdout.write(part.message.content);
+        for await (const part of response) {
+            process.stdout.write(part.message.content);
+        }
+    } catch (error) {
+        console.log("Error:", error);
     }
-  } catch (error) {
-    console.log("Error:", error);
-  }
 };
 
 gettingStarted();
@@ -44,16 +44,31 @@ app.use(express.json());
 
 app.post('/mcp', async (req, res) => {
 
-    const transport = new StreamableHTTPServerTransport({
-        sessionIdGenerator: undefined,
-        enableJsonResponse: true
-    })
-    res.on('close', () => {
-        transport.close();
-    })
+    try {
 
-    await server.connect(transport);
-    await transport.handleRequest(req, res, req.body);
+        const transport = new StreamableHTTPServerTransport({
+            sessionIdGenerator: undefined,
+            enableJsonResponse: true
+        })
+        res.on('close', () => {
+            transport.close();
+        })
+
+        await server.connect(transport);
+        await transport.handleRequest(req, res, req.body);
+    } catch (error) {
+        console.error('Error handling MCP request:', error);
+        if (!res.headersSent) {
+            res.status(500).json({
+                jsonrpc: '2.0',
+                error: {
+                    code: -32603,
+                    message: 'Internal server error'
+                },
+                id: null
+            });
+        }
+    }
 })
 
 const port = 3000
