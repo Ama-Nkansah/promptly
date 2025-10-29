@@ -4,7 +4,7 @@ export const generateBody = async (topic: string, sectionCount?: number) => {
   // base prompt when no section count is specified
   const prompt = `
 Write the main body of a blog post about: ${topic}.
-Split the content into clear sections with H2 and H3 subheadings.
+Split the content into clear sections 
 Each section should:
 - Introduce one main idea
 - Use examples, statistics, or visuals (describe them briefly)
@@ -12,7 +12,8 @@ Each section should:
 
 Write in a conversational and engaging tone.
 Use short paragraphs and bullet points where appropriate.
-Do not include any formatting symbols (like ** or ##).
+Do not include any formatting symbols (like ** , ##,  \\n\\n).
+And remove all line breaks.
 Keep the total length between 400–600 words.
   `;
 
@@ -20,7 +21,7 @@ Keep the total length between 400–600 words.
   if (sectionCount && sectionCount !== 0) {
     const prompt = `
 Write the main body of a blog post about: ${topic}.
-Generate ${sectionCount} sections with clear H2 and H3 subheadings.
+Generate ${sectionCount} sections with clear subheadings.
 Each section should:
 - Introduce one main idea
 - Use examples, statistics, or visuals (describe them briefly)
@@ -28,11 +29,13 @@ Each section should:
 
 Write in a conversational and engaging tone.
 Use short paragraphs and bullet points where appropriate.
-Do not include any formatting symbols (like ** or ##).
+Do not include any formatting symbols (like ** , ##, \\n\\n).
+And remove all line breaks.
 Keep the total length between 400–600 words.
     `;
     return await chatModel(prompt);
   }
 
   return await chatModel(prompt);
+  
 };
