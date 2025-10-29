@@ -17,4 +17,4 @@
 -  Install the packages for both Folders (Frontend and backend) 
 -  Run **npm run debug** for the Backend 
 -  Open a seperate terminal and run **npm run dev** for the frontend 
--  Test the Agent on http://localhost:3000 on your browser and for your backend it will be runing on http://localhost:500
+-  Test the Agent on http://localhost:3000 on your browser and for your backend it will be runing on http://localhost:5000/
