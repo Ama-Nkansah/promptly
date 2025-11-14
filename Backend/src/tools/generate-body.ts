@@ -1,41 +1,46 @@
 import { chatModel } from "../llm/ollama-client.js";
 
 export const generateBody = async (topic: string, sectionCount?: number) => {
-  // base prompt when no section count is specified
-  const prompt = `
-Write the main body of a blog post about: ${topic}.
-Split the content into clear sections 
-Each section should:
-- Introduce one main idea
-- Use examples, statistics, or visuals (describe them briefly)
-- End with a short takeaway or summary line
-
-Write in a conversational and engaging tone.
-Use short paragraphs and bullet points where appropriate.
-Do not include any formatting symbols (like ** , ##,  \\n\\n).
-And remove all line breaks.
-Keep the total length between 400–600 words.
-  `;
-
   // when section count is explicitly specified
   if (sectionCount && sectionCount !== 0) {
     const prompt = `
-Write the main body of a blog post about: ${topic}.
-Generate ${sectionCount} sections with clear subheadings.
-Each section should:
-- Introduce one main idea
-- Use examples, statistics, or visuals (describe them briefly)
-- End with a short takeaway or summary line
+Write the main body of a blog post about: ${topic}
 
-Write in a conversational and engaging tone.
-Use short paragraphs and bullet points where appropriate.
-Do not include any formatting symbols (like ** , ##, \\n\\n).
-And remove all line breaks.
-Keep the total length between 400–600 words.
+Requirements:
+- Create exactly ${sectionCount} sections, each with a descriptive subheading
+- Each section should have 2-3 paragraphs exploring one main idea
+- Include relevant examples, statistics, or describe visual concepts where appropriate
+- Use bullet points or numbered lists to break down complex information
+- End each section with a key takeaway or transition to the next idea
+
+Style guidelines:
+- Write in a conversational, engaging, and accessible tone
+- Use short, scannable paragraphs (2-4 sentences each)
+- Incorporate storytelling elements or real-world scenarios when relevant
+- Make the content actionable and practical
+- Target total length: 400-600 words
     `;
     return await chatModel(prompt);
   }
 
+  // base prompt when no section count is specified
+  const prompt = `
+Write the main body of a blog post about: ${topic}
+
+Requirements:
+- Organize content into 3-4 natural sections with clear topic flow
+- Each section should have 2-3 paragraphs exploring one main idea
+- Include relevant examples, statistics, or describe visual concepts where appropriate
+- Use bullet points or numbered lists to break down complex information
+- Create smooth transitions between ideas
+
+Style guidelines:
+- Write in a conversational, engaging, and accessible tone
+- Use short, scannable paragraphs (2-4 sentences each)
+- Incorporate storytelling elements or real-world scenarios when relevant
+- Make the content actionable and practical
+- Target total length: 400-600 words
+  `;
+
   return await chatModel(prompt);
-  
 };
