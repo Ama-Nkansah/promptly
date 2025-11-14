@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import { smartFormat } from "@/utils/regex";
 
 export default function Menu() {
     const [title, setTitle] = useState("");
@@ -35,24 +37,54 @@ export default function Menu() {
     }
 
     return (
-        <div className="h-screen flex flex-col items-center justify-center">
-            <h1 className="text-xl font-bold mb-4">{title}</h1>
+        <section className=" flex flex-col items-center justify-center">
+        <h1 className="text-xl text-white font-bold mb-4">
+            {selectedTask === "Generate Title" ? title : null}
+            </h1>
+
+                        <div className="text-white w-4/5">
+            {selectedTask === "Generate Body" ? (
+                <div className="text-white border border-white p-6 m-4 leading-relaxed space-y-4">
+  <ReactMarkdown
+    components={{
+      ul: ({ children }) => (
+        <ul className="list-disc list-inside space-y-2">{children}</ul>
+      ),
+      ol: ({ children }) => (
+        <ol className="list-decimal list-inside space-y-2">{children}</ol>
+      ),
+      li: ({ children }) => (
+        <li className="ml-2">{children}</li>
+      ),
+      p: ({ children }) => (
+        <p className="mb-2">{children}</p>
+      ),
+    }}
+  >
+    {smartFormat(title)}
+  </ReactMarkdown>
+</div>
+
+            ) : selectedTask === "Generate Intro" ? (
+                <p className="italic mb-2">{title}</p>
+            ) : null}
+            </div>
 
             <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Enter your text here..."
-                className="border p-2 m-4 w-80"
+                className="border flex justify-center mx-87 p-2 m-4 w-80"
             />
 
-            <div className="flex items-center gap-4">
+            <div className="flex justify-center mb-6 items-center gap-4">
                 {/* Select dropdown (no visible text) */}
                 <div className="relative">
                     <select
                         value={selectedTask}
                         onChange={(e) => setSelectedTask(e.target.value)}
-                        className="appearance-none bg-transparent border-none p-2 pr-6 cursor-pointer text-transparent focus:outline-none"
+                        className="appearance-none bg-gray-950 border-none p-2 pr-6 cursor-pointer text-transparent focus:outline-none"
                     >
                         {tasks.map((t) => (
                             <option key={t} value={t}>
@@ -87,6 +119,6 @@ export default function Menu() {
                     {isRunning ? "Running..." : selectedTask}
                 </button>
             </div>
-        </div>
+        </section>
     );
 }
