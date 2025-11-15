@@ -16,6 +16,7 @@ export default function Menu() {
   const [input, setInput] = useState("");
   const [selectedTask, setSelectedTask] = useState(tasks[0]);
   const [isRunning, setIsRunning] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   // Function to run a task against the backend agent
   async function runTask() {
@@ -43,6 +44,22 @@ export default function Menu() {
     }
   }
 
+  // Function to copy only the text content to the clipboard
+  const handleCopy = () => {
+    if (content) {
+      // Create a temporary div element to parse the HTML string
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = content;
+      const textToCopy = tempDiv.textContent || tempDiv.innerText || "";
+
+      // Use the Clipboard API to copy the extracted plain text
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
+      });
+    }
+  };
+
   // Renders the generated content based on the selected task
   const renderContent = () => {
     if (isRunning || !content) return null;
@@ -54,8 +71,14 @@ export default function Menu() {
       />
     );
     return (
-      <div className="w-full max-w-2xl mt-8 p-6 bg-gray-800/50 rounded-lg backdrop-blur-sm border border-gray-700/50 animate-fade-in">
+      <div className="w-full max-w-2xl mt-8 p-6 bg-gray-800/50 rounded-lg backdrop-blur-sm border border-gray-700/50 animate-fade-in relative">
         {contentToRender}
+        <button
+          onClick={handleCopy}
+          className="absolute top-2 right-2 px-3 py-1.5 text-sm font-semibold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors duration-300"
+        >
+          {isCopied ? "Copied!" : "Copy"}
+        </button>
       </div>
     );
   };
