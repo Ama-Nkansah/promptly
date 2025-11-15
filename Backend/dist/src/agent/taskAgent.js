@@ -16,7 +16,7 @@ export const handleUserTask = async (task, content, value, sectionCount) => {
         return { type: task, result: titles };
     }
     if (/introduction/i.test(task) || /intro/i.test(task) && !value) {
-        const result = await generateIntro(content);
+        const result = await generateIntro(content, value);
         console.log(result);
         return { type: task, result: result };
     }

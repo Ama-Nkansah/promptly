@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/agent", async (req, res) => {
+app.post("/server", async (req, res) => {
     const { task, content ,value} = req.body;
     try {
         const result = await handleUserTask(task, content,value);

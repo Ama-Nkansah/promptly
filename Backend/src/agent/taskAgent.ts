@@ -8,7 +8,7 @@ import { generateConclusion } from "../tools/generate-conclusion.js";
 export const handleUserTask = async (task: string, content: string, value?: number,sectionCount?:number) => {
     console.log(`Handling task: ${task} with content: ${content} and value: ${value}`);
 
-    //================ TITLE GENERATION =================//
+    //TITLE GENERATION //
     // title regex to check if task contains the word title (case insensitive)
     if (/title/i.test(task) && !value) {
         const title = await generateTitle(content);
@@ -22,7 +22,7 @@ export const handleUserTask = async (task: string, content: string, value?: numb
 
         return { type: task, result: titles }
     }
-    //================ INTRO GENERATION =================//
+    // INTRO GENERATION //
 
     // intro regex to check if task contains the word intro or introduction (case insensitive)
     if (/introduction/i.test(task) || /intro/i.test(task)  && !value) {
@@ -38,7 +38,7 @@ export const handleUserTask = async (task: string, content: string, value?: numb
         return { type: task, result: intros }
     }
 
-    //================ BODY GENERATION =================//
+    // BODY GENERATION //
     if (/generate body/i.test(task) || /body/i.test(task) && !sectionCount) {
         const body = await generateBody(content);
         return { type: "body", result: body };
@@ -49,7 +49,7 @@ export const handleUserTask = async (task: string, content: string, value?: numb
         return { type: "body", result: body };
     }
 
-    //================ CONCLUSION GENERATION =================//
+    // CONCLUSION GENERATION //
     if (/conclusion/i.test(task) && !value) {
         const conclusion = await generateConclusion(content);
         return { type: "conclusion", result: conclusion };
@@ -62,14 +62,14 @@ export const handleUserTask = async (task: string, content: string, value?: numb
         return { type: task, result: conclusions }
     }
 
-    //================ REWRITE GENERATION =================//
+    // REWRITE GENERATION //
     if (/rewrite/i.test(task)) {
         const prompt = `Rewrite the following content in a more engaging tone:\n\n${content}`;
         const rewritten = await chatModel(prompt);
         return { type: "rewrite", result: rewritten };
     }
 
-    //================ GENERIC TASK HANDLING =================//
+    // GENERIC TASK HANDLING //
     const generic = await chatModel(content);
     return { type: "generic", result: generic };
 }

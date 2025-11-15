@@ -24,18 +24,19 @@ export default function Menu() {
     try {
       setIsRunning(true);
       setContent(""); // Clear previous content
-      const response = await fetch("https://content-creation-ai-agent.onrender.com/agent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ task: selectedTask, content: input }),
-      });
+      const response = await fetch(
+        "https://promptly-backend-b8yu.onrender.com/server",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ task: selectedTask, content: input }),
+        }
+      );
 
       const data = await response.json();
       setContent(data.result ?? JSON.stringify(data, null, 2));
     } catch (err) {
-      setContent(
-        "An error occurred while running the task. Please try again."
-      );
+      setContent("An error occurred while running the task. Please try again.");
       console.error(err);
     } finally {
       setIsRunning(false);
