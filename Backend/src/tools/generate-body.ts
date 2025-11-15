@@ -1,6 +1,6 @@
 import { chatModel } from "../llm/ollama-client.js";
 
-export const generateBody = async (topic: string, sectionCount?: number) => {
+export const generateBody = async (topic: string, sectionCount = 3) => {
   // when section count is explicitly specified
   if (sectionCount && sectionCount !== 0) {
     const prompt = `

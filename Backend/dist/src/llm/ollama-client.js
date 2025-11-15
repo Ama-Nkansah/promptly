@@ -3,12 +3,6 @@ import { configDotenv } from "dotenv";
 configDotenv();
 
 
-const ollama = new Ollama({
-  host: "https://ollama.com",
-  headers: {
-    Authorization: "Bearer " + process.env.OLLAMA_API_KEY,
-  },
-});
 
 
 export const chatModel = async (prompt) => {
