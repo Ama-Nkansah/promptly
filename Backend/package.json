@@ -14,11 +14,21 @@
   "license": "ISC",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.20.2",
+    "@prisma/adapter-mariadb": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.4",
+    "@types/jsonwebtoken": "^9.0.10",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+<<<<<<< HEAD
     "ollama": "^0.6.3",
+=======
+    "jsonwebtoken": "^9.0.3",
+    "ollama": "^0.6.0",
+>>>>>>> upstream/main
     "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "zod": "^3.25.76"
