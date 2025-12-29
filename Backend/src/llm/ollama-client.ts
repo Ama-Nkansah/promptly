@@ -18,7 +18,7 @@ export const chatModel = async (prompt: string) => {
             model: "gpt-oss:120b-cloud",
             messages: [
                 { 
-                    role: "system", 
+                    role: "system",
                     content: `You are a helpful assistant that formats all responses in HTML with Tailwind CSS classes.
                     
 Rules for your output:

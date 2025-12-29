@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-// A list of tasks for the AI agent
+
 const tasks = [
   "Generate Title",
   "Generate Intro",
@@ -18,13 +18,13 @@ export default function Menu() {
   const [isRunning, setIsRunning] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
-  // Function to run a task against the backend agent
+  
   async function runTask() {
     if (!input.trim() || isRunning) return;
 
     try {
       setIsRunning(true);
-      setContent(""); // Clear previous content
+      setContent(""); 
       const response = await fetch(
         "https://promptly-backend-b8yu.onrender.com/server",
         {
@@ -44,7 +44,7 @@ export default function Menu() {
     }
   }
 
-  // Function to copy only the text content to the clipboard
+  
   const handleCopy = () => {
     if (content) {
       // Create a temporary div element to parse the HTML string
@@ -55,12 +55,12 @@ export default function Menu() {
       // Use the Clipboard API to copy the extracted plain text
       navigator.clipboard.writeText(textToCopy).then(() => {
         setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
+        setTimeout(() => setIsCopied(false), 5000); 
       });
     }
   };
 
-  // Renders the generated content based on the selected task
+
   const renderContent = () => {
     if (isRunning || !content) return null;
 
@@ -83,12 +83,11 @@ export default function Menu() {
     );
   };
 
-  // Animated text for the heading
+  
   const headingText = "Hey there, what are you up to...".split("");
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen bg-gray-900 p-4 font-sans">
-      {/* Conditionally render the animated heading */}
       {!content && !isRunning && (
         <h1 className="text-3xl font-bold text-white mb-4">
           {headingText.map((letter, index) => (
@@ -108,7 +107,6 @@ export default function Menu() {
         </h1>
       )}
 
-      {/* Render the generated content */}
       {renderContent()}
 
       <div className="w-full max-w-2xl mt-8 p-6 bg-gray-800/50 rounded-lg shadow-2xl backdrop-blur-sm border border-gray-700/50">
@@ -121,7 +119,6 @@ export default function Menu() {
         />
 
         <div className="flex flex-col sm:flex-row items-center gap-4 mt-4">
-          {/* Custom Styled Select Dropdown */}
           <div className="relative w-full sm:w-auto shrink-0">
             <select
               value={selectedTask}
@@ -156,7 +153,7 @@ export default function Menu() {
             </div>
           </div>
 
-          {/* Main action button with CSS loader */}
+         
           <button
             onClick={runTask}
             disabled={isRunning || !input.trim()}
@@ -164,7 +161,6 @@ export default function Menu() {
           >
             {isRunning ? (
               <>
-                {/* Simple CSS Spinner */}
                 <svg
                   className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                   xmlns="http://www.w3.org/2000/svg"
